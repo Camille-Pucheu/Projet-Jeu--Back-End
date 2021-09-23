@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Back-End</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Titre -->
+    <div id="enTete"> 
+        <h1>Mon Jeu multi-joueurs</h1>
+        <div>
+            <img src="Images/Mon_Portrait.png" alt="Portrait de Camille Pucheu">
+        </div>
+    </div>
+
+    <!-- Score -->
+    <div id="score">
+            <img src="Images/Poké_Ball.svg" alt="Pokeball">
+            <p>Scores</p>
+    </div>
+    <div id="scoreTab">
+        <div>
+            <h2>Tableau des scores</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Joueur</th>
+                        <th>Avatar</th>
+                        <th>Score</th>
+                        <th>Durée de jeu</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Joueur 1 </td>
+                        <td>Couverdure</td>
+                        <td>1er</td>
+                        <td>2:30</td>
+                    </tr>
+                    <tr>
+                        <td>Joueur 1 </td>
+                        <td>Darumarond</td>
+                        <td>1er</td>
+                        <td>2:35</td>
+                    </tr>
+                    <tr>
+                        <td>Joueur 1 </td>
+                        <td>Escargaume</td>
+                        <td>2e</td>
+                        <td>2:35</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Choix d'Avatar -->
+    <div id="choixAvatar">
+        <h2 id="titreAvatar">Choisi ton avatar</h2>
+        <div id="avatar">
+            <img src="Images/Vignette-Brocélôme.png" alt="Brocélôme"><img src="Images/Vignette-Couverdure.png" alt="Couverdure"><img src="Images/Vignette-Darumarond.png" alt="Darumarond"><img src="Images/Vignette-Escargaume.png" alt="Escargaume">
+            <img src="Images/Vignette-Mucuscule.png" alt="Mucuscule"><img src="Images/Vignette-Sorbébé.png" alt="Sorbébé"><img src="Images/Vignette-Sucroquin.png" alt="Sucroquin"><img src="Images/Vignette-Venipatte.png" alt="Venipatte">
+        </div>
+    </div>
+
+    <!-- Partie Jeu  -->
+
+    <div id="jeu">
+        <!-- Coureurs -->
+        <div id="coureurs">
+            <div id="joueur1">
+                <div class="couverdure">
+                    <img src="../Front/Images/Sprite-Couverdure.png" alt="Joueur 1" id="couverdure">
+                </div>
+            </div>
+            <div id="joueur2">
+                <div class="darumarond">
+                    <img src="../Front/Images/Sprite-Darumarond.png" alt="Joueur 2" id="darumarond">
+                </div>
+            </div>
+
+            <!-- <div class="brocelome">
+                <img src="Images/Sprite-Brocélôme.png" brocelomealt="gif de Brocélôme" id="brocelome">
+            </div>
+            <div class="couverdure">
+                <img src="Images/Sprite-Couverdure.png" alt="gif de Couverdure" id="couverdure">
+            </div>
+            <div class="darumarond">
+                <img src="Images/Sprite-Darumarond.png" alt="gif de Darumarond" id="darumarond">
+            </div>
+            <div class="escargaume">
+                <img src="Images/Sprite-Escargaume.png" alt="gif de Escargaume" id="escargaume">
+            </div>
+            <div class="mucuscule">
+                <img src="Images/Sprite-Mucuscule.png" alt="gif de Mucuscule" id="mucuscule">
+            </div>
+            <div class="sorbebe">
+                <img src="Images/Sprite-Sorbébé.png" alt="gif de Sorbébé" id="sorbebe">
+            </div>
+            <div class="sucroquin">
+                <img src="Images/Sprite-Sucroquin.png" alt="gif de Sucroquin" id="sucroquin">
+            </div>
+            <div class="venipatte">
+                <img src="Images/Sprite-Venipatte.png" alt="gif de Venipatte" id="venipatte">
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- Participants -->
+    <div id='joueurs'>
+        <div>
+            <img src="../Front/Images/Vignette-Brocélôme.png" alt="Avatar du Joueur 1">
+            <p>Joueur 1</p>
+        </div>
+        <div>
+            <img src="../Front/Images/Vignette-Couverdure.png" alt="Avatar du Joueur 2">
+            <p>Joueur 2</p>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="../Front/JavaScript/JS_Script.js"></script>
+    <script src="../Back/script.js"></script>
+</body>
+</html>

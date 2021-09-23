@@ -1,0 +1,77 @@
+doctype html
+html(lang='fr')
+    head
+        meta(charset='UTF-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        title Atelier Back-End
+        // Styles
+        link(rel='stylesheet' href='css/style.css')
+    body
+        // Titre
+        #enTete
+            h1 Mon Jeu multi-joueurs
+            div
+                img(src='img/Mon_Portrait.png' alt='Portrait de Camille Pucheu')
+        // Score
+        #score
+            img(src='img/Poké_Ball.svg' alt='Pokeball')
+            p Scores
+        #scoreTab
+            div
+                h2 Tableau des scores 
+                table
+                    thead
+                        tr
+                            th Joueur
+                            th Avatar
+                            th Score
+                            th Durée de jeu
+                    tbody
+                        each joueur in datas
+                            tr
+                                td #{joueur.Pseudo} 
+                                td #{joueur.Avatar} 
+                                td #{joueur.Score} 
+                                td #{joueur['Durée de jeu']}
+
+        // Zone choix de pseudo et d'avatar
+        #introduction
+            p Bienvenue dans la course!
+            form(action="" method="get")
+                input(type="text" placeholder="Choisi ton pseudonyme" name="pseudo" required)
+                input(type="submit" value="")
+                p *Pseudo déjà utilisé, veuillez en saisir un autre.
+        // Choix d'Avatar
+        #choixAvatar
+            h2#titreAvatar Choisi ton avatar
+            #avatar
+                img(src='img/Vignette-Brocélôme.png' alt='Brocélôme')
+                img(src='img/Vignette-Couverdure.png' alt='Couverdure')
+                img(src='img/Vignette-Darumarond.png' alt='Darumarond')
+                img(src='img/Vignette-Escargaume.png' alt='Escargaume')
+                img(src='img/Vignette-Mucuscule.png' alt='Mucuscule')
+                img(src='img/Vignette-Sorbébé.png' alt='Sorbébé')
+                img(src='img/Vignette-Sucroquin.png' alt='Sucroquin')
+                img(src='img/Vignette-Venipatte.png' alt='Venipatte')
+        // Partie Jeu
+        #jeu
+            // Coureurs
+            #coureurs
+                #coureur1
+                    .couverdure
+                        img#couverdure(src='img/Sprite-Couverdure.png' alt='Joueur 1')
+                #coureur2
+                    .darumarond
+                        img#darumarond(src='img/Sprite-Darumarond.png' alt='Joueur 2')
+        // Participants
+        #joueurs
+            div
+                img(src='img/Vignette-vierge.png' alt='Avatar du Joueur 1')
+                p#nomJoueur1 Joueur 1
+            div
+                img(src='img/Vignette-vierge.png' alt='Avatar du Joueur 2')
+                p#nomJoueur2 Joueur 2
+        // Script
+        script(src="http://192.168.35.105:8888/socket.io/socket.io.min.js")
+        script(src='js/JS_Script.js')
