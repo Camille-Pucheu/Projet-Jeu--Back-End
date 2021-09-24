@@ -140,9 +140,9 @@ body {
 }
 
 #introduction input[type="text"] {
+    border-radius: 10px;
     font-size: 25px;
     line-height: 40px;
-    border-radius: 10px;
     margin-left: 225px;
     position: relative;
     top: 181px;
@@ -150,17 +150,17 @@ body {
 }
 
 #introduction input[type="submit"] {
-    position: absolute;
-    float: right;
-    top: 327px;
-    right: 15px;
-    border: none;
+    background-color: rgba(250, 250, 250, 0);
     background-image: url("../img/Pikachu_Icon_Suivant.png");
     background-size: 105%;
-    height: 80px;
-    width: 80px;
-    background-color: rgba(250, 250, 250, 0);
+    border: none;
     filter: drop-shadow(2px 2px 5px grey);
+    float: right;
+    height: 80px;
+    position: absolute;
+    right: 15px;
+    top: 327px;
+    width: 80px;
 }   #introduction input[type="submit"]:hover {
         cursor: pointer;
         filter: 
@@ -171,59 +171,112 @@ body {
     }
 
 #introduction form p {
+    color: red;
     display: none;
     font-size: 12px;
-    color: red;
     margin-left: 232px;
     position: relative;
     top: 181px;
 }
+
+#introduction img {
+    filter: drop-shadow(2px 2px 5px grey);
+    float: right;
+    height: 80px;
+    position: absolute;
+    right: 15px;
+    top: 327px;
+    width: 80px;
+}   #introduction img:hover {
+        cursor: pointer;
+        filter: 
+            brightness(1.25)
+            drop-shadow(0 0 20px rgb(240, 255, 27)); 
+        height: 85px;
+        width: 85px;
+    }
 
 /**********************************************************************/
 /*************************** Choix d'Avatar ***************************/
 /**********************************************************************/
 
 #titreAvatar {
-    position: absolute;
-    height: 32px;
-    left: calc(50% - 203px);
-    top: calc(50% - 228px);
-    width: 220px;
     background-color: rgb(246, 69, 85);
     border-radius: 20px;
     border:black 3px solid;
     box-shadow: 0 2px 10px black;
+    height: 32px;
+    left: calc(50% - 203px);
     padding-left: 10px;
+    position: absolute;
+    top: calc(50% - 228px);
+    width: 220px;
     z-index: 1;
 }
 
 #avatar {
-    padding-top: 15px;
-    position: absolute;
     background-color: white;
+    border-radius: 20px;
+    border:rgb(246, 69, 85) 3px solid;
+    box-shadow: 0 2px 10px black;
     height: 215px;
     left: calc(50% - 210px);
+    padding-top: 15px;
+    position: absolute;
+    text-align: center;
     top: calc(50% - 180px);
     width: 420px;
-    border:rgb(246, 69, 85) 3px solid;
-    border-radius: 20px;
-    box-shadow: 0 2px 10px black;
-    text-align: center;
 }
 
 #avatar img {
-    margin: 5px;
-    /* filter: grayscale(1); */
     filter: contrast(0.2);
+    margin: 5px;
 } #avatar img:hover {
-    /* filter: grayscale(0); */
-    filter: contrast(1);
     cursor: pointer;
+    filter: contrast(1);
 }
 
-/******************************************************************/
-/*************************** Partie Jeu ***************************/
-/******************************************************************/
+/**********************************************************************/
+/************************* Attente adversaire *************************/
+/**********************************************************************/
+
+#chargement {
+    display: none;
+    height: 72px;
+    left: calc(50% - 265px);
+    position: absolute;
+    top: calc(50% - 36px);
+    width: 530px;
+}
+
+#chargement>div {
+    background-color: white;
+    border-radius: 40px;
+    border: rgb(246, 69, 85) 5px solid;
+    display: flex;
+    height: 62px;
+    padding-left: 20px;
+    width: 500px;
+}
+
+#chargement p {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 0px;
+}
+
+#chargement>div div {
+    margin: 6px 0 0 30px;
+    overflow: hidden;
+    width: 50px;
+}
+
+#spritePikachu {position: relative}
+
+
+/**********************************************************************/
+/***************************** Partie Jeu *****************************/
+/**********************************************************************/
 
 #jeu {
     background-color: white;
@@ -231,7 +284,6 @@ body {
     border: yellow double 8px;
     box-shadow: 1px 1px 5px gray;
     display: none;
-    /* display: flex; */
     height: 450px;
     justify-content: center;
     left: calc(50% - 350px);

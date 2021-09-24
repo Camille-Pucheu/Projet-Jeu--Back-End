@@ -26,6 +26,9 @@ const element = {
     vignetteVenipatte : document.getElementById('avatar').querySelector('img[alt="Venipatte"]'),
     avatarJoueur1 : document.getElementById('joueurs').querySelector('img[alt="Avatar du Joueur 1"]'),
     avatarJoueur2 : document.getElementById('joueurs').querySelector('img[alt="Avatar du Joueur 2"]'),
+    divChargement : document.getElementById('chargement'),
+    spritePikachu : document.getElementById('spritePikachu'),
+    divJeu : document.getElementById('jeu'),
 };
 
 const coureurs = {
@@ -77,6 +80,7 @@ const coureurs = {
 
 element.tableauDesScores.style.display = 'none';
 element.divChoixAvatar.style.display = 'none';
+element.spritePikachu.style.right = "0px";
 element.coureur1.style.right = '150px';
 element.coureur2.style.right = '150px';
 
@@ -116,15 +120,38 @@ const changementVignette = function(pokemonChoisi,joueur){
     }
 }
 
-
+/* Lors de l'attente de l'adversaire */
+const animationPikachu = function(){
+    setInterval(function(){
+        let x = parseFloat(element.spritePikachu.style.right);
+        if (x > 1150) {
+            x = 0;
+            element.spritePikachu.style.right = x + 50 + "px";
+        } else {
+            element.spritePikachu.style.right = x + 50 + "px";
+        }
+    },130);
+}
 
 /*************************************************************************
 ************************      Mes Evenements      ************************
 *************************************************************************/
 
-    /*----------------------------------------- */
-    /*          Animation des coureurs          */
-    /*------------------------------------------*/ 
+    /*------------------------------------------- */
+    /*             Affichage du score             */
+    /*--------------------------------------------*/ 
+
+element.boutonScore.addEventListener('click',function(){
+if (element.tableauDesScores.style.display == 'none') {
+    element.tableauDesScores.style.display = 'block';
+} else {
+    element.tableauDesScores.style.display = 'none';
+}
+})
+
+    /*------------------------------------------- */
+    /*           Animation des coureurs           */
+    /*--------------------------------------------*/ 
 
 const animationCoureurs = function(pokemon,nbrSprite,hauteurConteneur) {
     pokemon.style.top = "0px";
@@ -159,17 +186,6 @@ window.onkeyup = function(){
     element.coureur2.style.right = y + 1 + 'px';
 }
 
-    /*------------------------------------------- */
-    /*             Affichage du score             */
-    /*--------------------------------------------*/ 
-
-element.boutonScore.addEventListener('click',function(){
-    if (element.tableauDesScores.style.display == 'none') {
-        element.tableauDesScores.style.display = 'block';
-    } else {
-        element.tableauDesScores.style.display = 'none';
-    }
-})
 
 
 
@@ -180,33 +196,24 @@ element.boutonScore.addEventListener('click',function(){
 window.addEventListener('DOMContentLoaded', () => {
     const socket = io();
     //- const socket = io('http://192.168.35.105:8888');
-    // let clientRoom;
 
-    // Rooms part start
 
     socket.on('numeroRoom', (nbr) => {
         console.log(`Connecté sur la room No.${nbr}`);
-        // clientRoom = nbr;
     })
-
-    // socket.on('switchFromServer', () => {
-    //     console.log('entree dans le switchFromServer')
-    // })
-
-    // Rooms part end
-
     socket.on('quelJoueur', (leJoueur) => {
         console.log(`Joueur No.${leJoueur}`);
     });
+
+    /*-------------------------------------------- */
+    /*               Choix de Pseudo               */
+    /*---------------------------------------------*/ 
     
     element.form.addEventListener('submit', (event) => {
         event.preventDefault();
         const entreePseudo = element.inputPseudo.value;
-        console.log(entreePseudo);
+        // console.log(entreePseudo);
         socket.emit('entreePseudo', entreePseudo);
-
-        //- room
-        // socket.emit('submitPseudo', clientRoom);
     })
 
     socket.on('pseudoInvalide', () => {
@@ -252,8 +259,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     })
 
-
-
     socket.on('changementVignette', (pokemonChoisi, joueur) => {
         if (joueur == 1) {
             changementVignette(pokemonChoisi,element.avatarJoueur1);
@@ -261,6 +266,28 @@ window.addEventListener('DOMContentLoaded', () => {
             changementVignette(pokemonChoisi,element.avatarJoueur2);
 
         }
+    })
+
+    /*------------------------------------------- */
+    /*             Transition vers jeu            */
+    /*--------------------------------------------*/ 
+
+    socket.on('infosJoueurOK', () => {
+        element.divChoixAvatar.style.display = 'none';
+        element.divIntroduction.style.display = 'block';
+        element.divIntroduction.innerHTML = 
+            `<p><b>J'espère que tu es prêt,e?</b><br>Le principe est simple,<br>appuis sur <b>n'importe quelle touche</b><br>pour faire avancer ton coureur</p><img src="img/Pikachu_Icon_Suivant.png" alt="Petit Bouton Icône Pikachu">`;
+        element.divIntroduction.firstChild.style.fontSize = '21px';
+        element.divIntroduction.firstChild.style.lineHeight = '42px';  
+        element.divIntroduction.lastChild.addEventListener('click', () => {
+            socket.emit('pret');
+        })
+    })
+
+    socket.on('attenteAdversaire', () => {
+        element.divIntroduction.style.display = 'none';
+        element.divChargement.style.display = 'block';
+        animationPikachu();
     })
     
 })
