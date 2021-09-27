@@ -17,7 +17,6 @@ body {
     margin: 0px;
 }
 
-
 /********************************************************************************************/
 /****************************************** En-tête *****************************************/
 /********************************************************************************************/
@@ -76,7 +75,7 @@ body {
     filter: drop-shadow(2px 2px 5px rgb(61, 61, 61));
     position: relative;
     width: 96%;
-    z-index: 1;
+    z-index: 2;
 } #score img:hover {
         cursor: pointer;
         filter: 
@@ -93,11 +92,12 @@ body {
     display: none;
     height: 510px;
     left: calc(50% - 355px);
+    overflow: auto;
     position: absolute;
     text-align: center;
     top: calc(50% - 288px);
     width: 725px;
-    z-index: 2;
+    z-index: 4;
 }
 
 #scoreTab>div {
@@ -109,18 +109,55 @@ body {
 
 #scoreTab table {
     margin: 10px auto;
-    width: 700px;
+    width: 640px;
 }
 
+
+/**********************************************************************/
+/************************* Attente adversaire *************************/
+/**********************************************************************/
+
+#chargement {
+    height: 72px;
+    left: calc(50% - 265px);
+    position: absolute;
+    top: calc(50% - 36px);
+    width: 530px;
+}
+
+#chargement>div {
+    background-color: white;
+    border-radius: 40px;
+    border: rgb(246, 69, 85) 5px solid;
+    display: flex;
+    height: 62px;
+    padding-left: 20px;
+    width: 500px;
+}
+
+#chargement p {
+    font-size: 29px;
+    font-weight: bold;
+    line-height: 0px;
+}
+
+#chargement>div div {
+    margin: 6px 0 0 30px;
+    overflow: hidden;
+    width: 50px;
+}
+
+#spritePikachu {position: relative}
+
 /***********************************************************************/
-/*************************** Choix du Pseudo ***************************/
+/***************************   Introduction  ***************************/
 /***********************************************************************/
 
 #introduction {
     background-image: url("../img/Cadre_Discussion.png");
     background-position: -137px -905px;
     background-size: 145%;
-    /* display: none; */
+    display: none;
     height: 430px;
     left: calc(50% - 360px);
     position: absolute;
@@ -236,43 +273,6 @@ body {
     filter: contrast(1);
 }
 
-/**********************************************************************/
-/************************* Attente adversaire *************************/
-/**********************************************************************/
-
-#chargement {
-    display: none;
-    height: 72px;
-    left: calc(50% - 265px);
-    position: absolute;
-    top: calc(50% - 36px);
-    width: 530px;
-}
-
-#chargement>div {
-    background-color: white;
-    border-radius: 40px;
-    border: rgb(246, 69, 85) 5px solid;
-    display: flex;
-    height: 62px;
-    padding-left: 20px;
-    width: 500px;
-}
-
-#chargement p {
-    font-size: 30px;
-    font-weight: bold;
-    line-height: 0px;
-}
-
-#chargement>div div {
-    margin: 6px 0 0 30px;
-    overflow: hidden;
-    width: 50px;
-}
-
-#spritePikachu {position: relative}
-
 
 /**********************************************************************/
 /***************************** Partie Jeu *****************************/
@@ -292,9 +292,25 @@ body {
     width: 700px;
 }
 
+#compteARebours {
+    align-self: center;
+    display: none;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+    width: 150px;
+}
+
+#rebours {
+    filter: 
+        drop-shadow(2px 2px 5px rgb(59, 59, 59))
+        drop-shadow(0px 0px 10px red);
+    position: relative;
+}
+
 #coureurs {
     align-self: center;
-    background-image: url(../img/Background_course.jpg);
+    background-image: url(../img/New-Background_course.png);
     background-position: bottom;
     background-size: 140%;
     border-radius: 10px;
@@ -310,7 +326,7 @@ body {
 }
 
 #coureur2 {
-    bottom: 40px;
+    bottom: 56px;
     position: absolute;
 }
 
@@ -363,6 +379,48 @@ body {
 #sucroquin,
 #venipatte {position: relative;}
 
+#jeu>div:last-child {
+    position: absolute;
+    bottom: 25px;
+    left: 135px;
+    width: 50px;
+    height: 50px;
+}
+
+#jeu>div:last-child img {
+    position: relative;
+    bottom: 6px;
+    left: 5px;
+    height: 56px;
+}
+
+/**********************************************************************/
+/***************************   Conclusion   ***************************/
+/**********************************************************************/
+
+#conclusion {
+    background-image: url("../img/Cadre_Discussion.png");
+    background-position: -137px -19px;
+    background-size: 145%;
+    display: none;
+    height: 430px;
+    left: calc(50% - 360px);
+    position: absolute;
+    top: calc(50% - 320px);
+    width: 660px;
+}
+
+#conclusion div {
+    margin-left: 146px;
+    position: relative;
+    top: 189px;
+    width: 475px;
+}
+
+#conclusion p {
+    font-size: 20px;
+    line-height: 44px;
+}
 
 /**********************************************************************/
 /*************************** Partie Joueurs ***************************/
@@ -373,7 +431,7 @@ body {
     height: 195px;
     left: 5px;
     position: absolute;
-    width: 300px;
+    width: 400px;
 }
 
 #joueurs div {

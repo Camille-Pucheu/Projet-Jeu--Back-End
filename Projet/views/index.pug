@@ -25,16 +25,15 @@ html(lang='fr')
                         tr
                             th Joueur
                             th Avatar
+                            th Temps
                             th Score
-                            th Durée de jeu
-                    tbody
-                        each joueur in datas
-                            tr
-                                td #{joueur.Pseudo} 
-                                td #{joueur.Avatar} 
-                                td #{joueur.Score} 
-                                td #{joueur['Durée de jeu']}
-
+                    tbody#listeScore
+        // Attente d'adversaire
+        #chargement
+            div
+                p On attend ton adversaire...
+                div
+                    img(src="img/Pikachu_Lightning_Sprite.png" alt="Pikachu aux joues electriques" id="spritePikachu")
         // Zone choix de pseudo et d'avatar
         #introduction
             p Bienvenue dans la course!
@@ -54,22 +53,24 @@ html(lang='fr')
                 img(src='img/Vignette-Sorbébé.png' alt='Sorbébé')
                 img(src='img/Vignette-Sucroquin.png' alt='Sucroquin')
                 img(src='img/Vignette-Venipatte.png' alt='Venipatte')
-        // Attente d'adversaire
-        #chargement
-            div
-                p On attend ton adversaire...
-                div
-                    img(src="img/Pikachu_Lightning_Sprite.png" alt="Pikachu aux joues electriques" id="spritePikachu")
         // Partie Jeu
         #jeu
+            #compteARebours
+                img#rebours(src='img/Rebours.png')
             // Coureurs
             #coureurs
                 #coureur1
-                    .couverdure
-                        img#couverdure(src='img/Sprite-Couverdure.png' alt='Joueur 1')
+                    .pokemon1
+                        img#pokemon1(src='' alt='Joueur 1')
                 #coureur2
-                    .darumarond
-                        img#darumarond(src='img/Sprite-Darumarond.png' alt='Joueur 2')
+                    .pokemon2
+                        img#pokemon2(src='' alt='Joueur 2')
+            div
+                img(src='img/Element_course.png')
+        // Fin du jeu
+        #conclusion
+            div
+                p Bravo, tu as fini la course avec un temps<br>de <b id="temps">temps</b>!<br>N'hésites pas à aller voir ton classement dans le tableau des scores!
         // Participants
         #joueurs
             div
@@ -79,5 +80,5 @@ html(lang='fr')
                 img(src='img/Vignette-vierge.png' alt='Avatar du Joueur 2')
                 p#nomJoueur2 Joueur 2
         // Script
-        script(src="http://192.168.35.105:8888/socket.io/socket.io.min.js")
+        script(src="/socket.io/socket.io.min.js")
         script(src='js/JS_Script.js')
