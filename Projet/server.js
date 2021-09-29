@@ -5,7 +5,6 @@
 /****************************************/
 
 const mongodb = require('mongodb');
-const uuid = require('uuid');
 
 const express = require('express');
 const app = express();
@@ -55,16 +54,20 @@ httpServer.listen(8888, () => {
 
 let joueur = {};
 let room = {};
-let clientNo = 0;
+let connectionNo = 0;
 let roomNo;
 
+
 ioServer.on('connection', (socket) => {
+    
+    const personnesConnectees = ioServer.engine.clientsCount;
+    ioServer.emit('personnesConnectees', personnesConnectees);
+    
+    connectionNo++;
+    roomNo = Math.round(connectionNo/2);
+    room[roomNo] = ['Pseudo1', 'Pseudo2', 'no', 'no', 'no', 'no'];
 
-    clientNo++;
-    roomNo = Math.round(clientNo/2);
-    room[roomNo] = [1, 2, 'no', 'no', 'no', 'no'];
     socket.join(roomNo);
-
     socket.emit('numeroRoom', roomNo);
 
     /* Affichage du score */
@@ -98,67 +101,67 @@ ioServer.on('connection', (socket) => {
 
 
 /*------------------------------------- Joueur 1 */
-    if (clientNo % 2 === 1){
+    if (connectionNo % 2 === 1){
 
         socket.emit('quelJoueur', 1);
 
     /* Vérifie la présence d'un adversaire */
         socket.to(roomNo).emit('unJoueurPresent');
-        socket.on('deuxiemeJoueurPresent', () => {
-            ioServer.in(roomNo).emit('adversairePresent');
+        socket.on('deuxiemeJoueurPresent', (numeroDeRoom) => {
+            ioServer.in(numeroDeRoom).emit('adversairePresent');
         })
 
 
     /* Choix pseudo */
-        socket.on('entreePseudo', (nomRecu) => {
+        socket.on('entreePseudo', (nomRecu, numeroDeRoom) => {
             joueur[socket.id] = {'Pseudo': nomRecu};
-            room[roomNo][0] =  nomRecu;
-            if (room[roomNo][1] == room[roomNo][0]) {
+            room[numeroDeRoom][0] =  nomRecu;
+            if (room[numeroDeRoom][1] == room[numeroDeRoom][0]) {
                 socket.emit('pseudoInvalide');
             } else {
-                ioServer.in(roomNo).emit('PseudoJoueur1', nomRecu);
+                ioServer.in(numeroDeRoom).emit('PseudoJoueur1', nomRecu);
                 socket.emit('choixAvatar');
             }
         })
 
     /* Choix avatar */
-        socket.on('clickAvatar', (pokemonChoisi) => {
+        socket.on('clickAvatar', (pokemonChoisi, numeroDeRoom) => {
             joueur[socket.id].Avatar = pokemonChoisi;
-            ioServer.in(roomNo).emit('assignationAvatar', pokemonChoisi, 1);
+            ioServer.in(numeroDeRoom).emit('assignationAvatar', pokemonChoisi, 1);
             socket.emit('infosJoueurOK');
         })
 
     /* Transition vers jeu */
-        socket.on('pret', () => {
-            room[roomNo][3] =  'yes';
-            if (room[roomNo][2] == 'yes') {
-                ioServer.in(roomNo).emit('lancementPartie');
+        socket.on('pret', (numeroDeRoom) => {
+            room[numeroDeRoom][3] =  'yes';
+            if (room[numeroDeRoom][2] == 'yes') {
+                ioServer.in(numeroDeRoom).emit('lancementPartie');
             } else {
                 socket.emit('attenteAdversaire');
             }
         })
-        socket.on('envoiCompteARebours', () => {
-            ioServer.in(roomNo).emit('lancementCompteARebours');
+        socket.on('envoiCompteARebours', (numeroDeRoom) => {
+            ioServer.in(numeroDeRoom).emit('lancementCompteARebours');
         })
 
     /* Démarrage jeu */
         socket.on('go', () => {
             socket.emit('course', 1);
         });
-        socket.on('envoiPosition', (nbr) => {
-            ioServer.to(roomNo).emit('receptionPosition', nbr, 1);
+        socket.on('envoiPosition', (numeroDeRoom) => {
+            ioServer.to(numeroDeRoom).emit('receptionPosition', nbr, 1);
         })
 
     /* Fin de course */
-        socket.on('finDeCourseJoueur1', (chrono) => {
+        socket.on('finDeCourseJoueur1', (chrono, numeroDeRoom) => {
             joueur[socket.id].Temps = chrono;
-            room[roomNo][4] = chrono;
-            if (room[roomNo][5] !== 'no') {
+            room[numeroDeRoom][4] = chrono;
+            if (room[numeroDeRoom][5] !== 'no') {
                 joueur[socket.id].Score = '2e';
             } else {
                 joueur[socket.id].Score = '1er';
             }
-            ioServer.in(roomNo).emit('finDuJeuJoueur1', joueur[socket.id].Pseudo, chrono, joueur[socket.id].Score);
+            ioServer.in(numeroDeRoom).emit('finDuJeuJoueur1', joueur[socket.id].Pseudo, chrono, joueur[socket.id].Score);
             socket.emit('finDeJeu', chrono);
 
             /* Stockage en base de donnee */
@@ -184,66 +187,66 @@ ioServer.on('connection', (socket) => {
         
 
 /*------------------------------------- Joueur 2 */
-    } else if (clientNo % 2 === 0) {
+    } else if (connectionNo % 2 === 0) {
 
         socket.emit('quelJoueur', 2);
 
     /* Vérifie la présence d'un adversaire */
         socket.to(roomNo).emit('unJoueurPresent');
-        socket.on('deuxiemeJoueurPresent', () => {
-            ioServer.in(roomNo).emit('adversairePresent');
+        socket.on('deuxiemeJoueurPresent', (numeroDeRoom) => {
+            ioServer.in(numeroDeRoom).emit('adversairePresent');
         })
 
 
     /* Choix pseudo */
-        socket.on('entreePseudo', (nomRecu) => {
+        socket.on('entreePseudo', (nomRecu, numeroDeRoom) => {
             joueur[socket.id] = {'Pseudo': nomRecu};
-            room[roomNo][1] =  nomRecu;
-            if (room[roomNo][1] == room[roomNo][0]) {
+            room[numeroDeRoom][1] =  nomRecu;
+            if (room[numeroDeRoom][1] == room[numeroDeRoom][0]) {
                 socket.emit('pseudoInvalide');
             } else {
-                ioServer.in(roomNo).emit('PseudoJoueur2', nomRecu);
+                ioServer.in(numeroDeRoom).emit('PseudoJoueur2', nomRecu);
                 socket.emit('choixAvatar');
             }
         })
 
     /* Choix avatar */
-        socket.on('clickAvatar', (pokemonChoisi) => {
+        socket.on('clickAvatar', (pokemonChoisi, numeroDeRoom) => {
             joueur[socket.id].Avatar = pokemonChoisi;
-            ioServer.in(roomNo).emit('assignationAvatar', pokemonChoisi, 2);
+            ioServer.in(numeroDeRoom).emit('assignationAvatar', pokemonChoisi, 2);
             socket.emit('infosJoueurOK');
         })
 
     /* Transition vers jeu */
-        socket.on('pret', () => {
-            room[roomNo][2] =  'yes';
-            if (room[roomNo][3] == 'yes') {
-                ioServer.in(roomNo).emit('lancementPartie');
+        socket.on('pret', (numeroDeRoom) => {
+            room[numeroDeRoom][2] =  'yes';
+            if (room[numeroDeRoom][3] == 'yes') {
+                ioServer.in(numeroDeRoom).emit('lancementPartie');
             } else {
                 socket.emit('attenteAdversaire');
             }
         })
-        socket.on('envoiCompteARebours', () => {
-            ioServer.in(roomNo).emit('lancementCompteARebours');
+        socket.on('envoiCompteARebours', (numeroDeRoom) => {
+            ioServer.in(numeroDeRoom).emit('lancementCompteARebours');
         })
 
     /* Démarrage jeu */
         socket.on('go', () => {
             socket.emit('course', 2);
         });
-        socket.on('envoiPosition', (nbr) => {
-            ioServer.to(roomNo).emit('receptionPosition', nbr, 2);
+        socket.on('envoiPosition', (nbr, numeroDeRoom) => {
+            ioServer.to(numeroDeRoom).emit('receptionPosition', nbr, 2);
         })
     /* Fin de course */
-        socket.on('finDeCourseJoueur2', (chrono) => {
+        socket.on('finDeCourseJoueur2', (chrono, numeroDeRoom) => {
             joueur[socket.id].Temps = chrono;
-            room[roomNo][5] = chrono;
-            if (room[roomNo][4] !== 'no') {
+            room[numeroDeRoom][5] = chrono;
+            if (room[numeroDeRoom][4] !== 'no') {
                 joueur[socket.id].Score = '2e';
             } else {
                 joueur[socket.id].Score = '1er';
             }
-            ioServer.in(roomNo).emit('finDuJeuJoueur2', joueur[socket.id].Pseudo, chrono, joueur[socket.id].Score);
+            ioServer.in(numeroDeRoom).emit('finDuJeuJoueur2', joueur[socket.id].Pseudo, chrono, joueur[socket.id].Score);
             socket.emit('finDeJeu', chrono);
 
             /* Stockage en base de donnee */
@@ -270,6 +273,17 @@ ioServer.on('connection', (socket) => {
     }
 
     socket.on('disconnect', () => {
-        console.log('Déconnection d\'un utilisateur');
+        const personnesConnectees = ioServer.engine.clientsCount;
+        ioServer.emit('personnesConnectees', personnesConnectees);
+        if (personnesConnectees == 0) {
+            connectionNo = 0;
+        }
     })
+    socket.on("disconnecting", () => {
+        for (const room of socket.rooms) {
+          if (room !== socket.id) {
+            socket.to(room).emit("deconnection");
+          }
+        }
+    });
 })

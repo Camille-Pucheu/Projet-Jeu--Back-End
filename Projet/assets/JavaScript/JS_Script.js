@@ -5,15 +5,21 @@
     ************************************************************************/
 
 const element = {
+    // En-Tête
+    personnesConnectees : document.getElementById('enTete').children[1].firstElementChild,
+    // Zone score 
     boutonScore : document.getElementById('score').firstElementChild,
     tableauDesScores : document.getElementById('scoreTab'),
     listeScores : document.getElementById('listeScore'),
+    // Attente d'adversaire
+    divChargement : document.getElementById('chargement'),
+    spritePikachu : document.getElementById('spritePikachu'),
+    // Introduction
     divIntroduction : document.getElementById('introduction'),
     form : document.querySelector('form'),
     inputPseudo : document.querySelector('input[name="pseudo"]'),
     invalideP : document.getElementById('introduction').lastChild.lastChild,
-    nomJoueur1 : document.getElementById('nomJoueur1'),
-    nomJoueur2 : document.getElementById('nomJoueur2'),
+    // Choix d'Avatar
     divChoixAvatar : document.getElementById('choixAvatar'),
     vignetteBrocelome : document.getElementById('avatar').querySelector('img[alt="Brocélôme"]'),
     vignetteCouverdure : document.getElementById('avatar').querySelector('img[alt="Couverdure"]'),
@@ -23,10 +29,7 @@ const element = {
     vignetteSorbebe : document.getElementById('avatar').querySelector('img[alt="Sorbébé"]'),
     vignetteSucroquin : document.getElementById('avatar').querySelector('img[alt="Sucroquin"]'),
     vignetteVenipatte : document.getElementById('avatar').querySelector('img[alt="Venipatte"]'),
-    avatarJoueur1 : document.getElementById('joueurs').querySelector('img[alt="Avatar du Joueur 1"]'),
-    avatarJoueur2 : document.getElementById('joueurs').querySelector('img[alt="Avatar du Joueur 2"]'),
-    divChargement : document.getElementById('chargement'),
-    spritePikachu : document.getElementById('spritePikachu'),
+    // Partie Jeu
     divJeu : document.getElementById('jeu'),
     divCompteARebours : document.getElementById('compteARebours'),
     rebours : document.getElementById('rebours'),
@@ -36,8 +39,16 @@ const element = {
     divCoureur2 : document.getElementById('coureur2').firstChild,
     imgCoureur1 : document.getElementById('coureur1').firstChild.firstChild,
     imgCoureur2 : document.getElementById('coureur2').firstChild.firstChild,
+    // Partie conclusion
     divFinDeJeu : document.getElementById('conclusion'),
     temps : document.getElementById('temps'),
+    // Partie joueurs
+    nomJoueur1 : document.getElementById('nomJoueur1'),
+    nomJoueur2 : document.getElementById('nomJoueur2'),
+    avatarJoueur1 : document.getElementById('joueurs').querySelector('img[alt="Avatar du Joueur 1"]'),
+    avatarJoueur2 : document.getElementById('joueurs').querySelector('img[alt="Avatar du Joueur 2"]'),
+    // Div déconnection
+    divDeconnection : document.getElementById('deconnection'),
 };
 
 const coureurs = {
@@ -88,7 +99,6 @@ const temps = {
     /*---------------------------------------------*/ 
 
 element.tableauDesScores.style.display = 'none';
-element.divChoixAvatar.style.display = 'none';
 element.spritePikachu.style.right = '0px';
 element.rebours.style.right = '0px'
 element.coureur1.style.right = '150px';
@@ -265,18 +275,31 @@ const finChrono = function(){
     clearInterval(idInterval);
 };
 
+
 /*************************************************************************
  ************************      Mes Evenements      ************************
  *************************************************************************/
 
 window.addEventListener('DOMContentLoaded', () => {
-    // const socket = io();
     const socket = io('http://192.168.35.105:8888');
-    let numRoom;
+    let numeroDeRoom;
     
+    socket.on('deconnection', () => {
+        element.divDeconnection.style.display = 'block';
+    })
+
+    /*------------------------------------------- */
+    /*     Nombre de personnes connectées         */
+    /*--------------------------------------------*/
+
+    socket.on('personnesConnectees', (connections) => {
+        element.personnesConnectees.innerHTML = connections;
+    });
+
+
     socket.on('numeroRoom', (nbr) => {
-        numRoom = nbr;
-        console.log(`Connecté sur la room No.${numRoom}`);
+        numeroDeRoom = nbr;
+        console.log(`Connecté sur la room No.${numeroDeRoom}`);
     })
     socket.on('quelJoueur', (leJoueur) => {
         console.log(`Joueur No.${leJoueur}`);
@@ -308,7 +331,7 @@ window.addEventListener('DOMContentLoaded', () => {
     animationPikachu();
 
     socket.on('unJoueurPresent', () => {
-        socket.emit('deuxiemeJoueurPresent');
+        socket.emit('deuxiemeJoueurPresent', numeroDeRoom);
     });
 
     socket.on('adversairePresent', () => {
@@ -324,7 +347,7 @@ window.addEventListener('DOMContentLoaded', () => {
     element.form.addEventListener('submit', (event) => {
         event.preventDefault();
         const entreePseudo = element.inputPseudo.value;
-        socket.emit('entreePseudo', entreePseudo);
+        socket.emit('entreePseudo', entreePseudo,numeroDeRoom);
     })
 
     socket.on('pseudoInvalide', () => {
@@ -345,28 +368,28 @@ window.addEventListener('DOMContentLoaded', () => {
         element.divIntroduction.style.display = 'none';
         element.divChoixAvatar.style.display = 'block';
         element.vignetteBrocelome.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Brocélôme');
+            socket.emit('clickAvatar', 'Brocélôme', numeroDeRoom);
         });
         element.vignetteCouverdure.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Couverdure');
+            socket.emit('clickAvatar', 'Couverdure', numeroDeRoom);
         });
         element.vignetteDarumarond.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Darumarond');
+            socket.emit('clickAvatar', 'Darumarond', numeroDeRoom);
         });
         element.vignetteEscargaume.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Escargaume');
+            socket.emit('clickAvatar', 'Escargaume', numeroDeRoom);
         });
         element.vignetteMucuscule.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Mucuscule');
+            socket.emit('clickAvatar', 'Mucuscule', numeroDeRoom);
         });
         element.vignetteSorbebe.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Sorbébé');
+            socket.emit('clickAvatar', 'Sorbébé', numeroDeRoom);
         });
         element.vignetteSucroquin.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Sucroquin');
+            socket.emit('clickAvatar', 'Sucroquin', numeroDeRoom);
         });
         element.vignetteVenipatte.addEventListener('click', () => {
-            socket.emit('clickAvatar', 'Venipatte');
+            socket.emit('clickAvatar', 'Venipatte', numeroDeRoom);
         });
     })
 
@@ -403,7 +426,7 @@ window.addEventListener('DOMContentLoaded', () => {
         element.divIntroduction.firstChild.style.lineHeight = '37px';
         element.divIntroduction.firstChild.style.top = '174px';  
         element.divIntroduction.lastChild.addEventListener('click', () => {
-            socket.emit('pret');
+            socket.emit('pret', numeroDeRoom);
         })
     })
 
@@ -418,7 +441,7 @@ window.addEventListener('DOMContentLoaded', () => {
         element.divChargement.style.display = 'none';
         finAnimatiomPikachu();
         element.divJeu.style.display = 'flex';
-        socket.emit('envoiCompteARebours');
+        socket.emit('envoiCompteARebours', numeroDeRoom);
     })
     
     socket.on('lancementCompteARebours', () => {
@@ -443,7 +466,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let x = parseFloat(element.coureur1.style.right);
                 if (x < 541) {
                     element.coureur1.style.right = x + 1 + 'px';
-                    socket.emit('envoiPosition', x);
+                    socket.emit('envoiPosition', x, numeroDeRoom);
                 }
             })
         } else if (joueur == 2) {
@@ -451,7 +474,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let x = parseFloat(element.coureur2.style.right);
                 if (x < 541) {
                     element.coureur2.style.right = x + 1 + 'px';
-                    socket.emit('envoiPosition', x);
+                    socket.emit('envoiPosition', x, numeroDeRoom);
                 }
             })
         }
@@ -461,12 +484,12 @@ window.addEventListener('DOMContentLoaded', () => {
         if (joueur == 1) {
             element.coureur1.style.right = nbr + 'px';
             if (parseFloat(element.coureur1.style.right) == 540) {
-                socket.emit('finDeCourseJoueur1', temps.affichage)
+                socket.emit('finDeCourseJoueur1', temps.affichage, numeroDeRoom)
             }
         } else if (joueur == 2) {
             element.coureur2.style.right = nbr + 'px';
             if (parseFloat(element.coureur2.style.right) == 540) {
-                socket.emit('finDeCourseJoueur2', temps.affichage)
+                socket.emit('finDeCourseJoueur2', temps.affichage, numeroDeRoom)
             }
         }
     })

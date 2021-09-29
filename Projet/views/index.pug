@@ -11,6 +11,7 @@ html(lang='fr')
         // Titre
         #enTete
             h1 Mon Jeu multi-joueurs
+            h2 Personnes connectées : <span>0</span>
             div
                 img(src='img/Mon_Portrait.png' alt='Portrait de Camille Pucheu')
         // Score
@@ -79,6 +80,9 @@ html(lang='fr')
             div
                 img(src='img/Vignette-vierge.png' alt='Avatar du Joueur 2')
                 p#nomJoueur2 Joueur 2
+        #deconnection
+            p Oups... Ton adversaire s'est déconnecté!<br>Veux-tu rejouer?
+            a(href='/')
         // Script
         script(src="/socket.io/socket.io.min.js")
         script(src='js/JS_Script.js')
