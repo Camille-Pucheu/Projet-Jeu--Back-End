@@ -1,5 +1,7 @@
 # Course de Pokemons
 
+Un petit jeu qui se joue à deux.
+
 ## Prérequis
 
 - Node.js inclutant Node Package Manager
