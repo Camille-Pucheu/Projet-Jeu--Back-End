@@ -4,6 +4,8 @@
     ************************ Mes variables et Objets ************************
     ************************************************************************/
 
+const adresseIPv4 = 'http://adressIPv4:8888';
+
 const element = {
     // En-Tête
     personnesConnectees : document.getElementById('enTete').children[1].firstElementChild,
@@ -281,7 +283,7 @@ const finChrono = function(){
  *************************************************************************/
 
 window.addEventListener('DOMContentLoaded', () => {
-    const socket = io('http://192.168.35.105:8888');
+    const socket = io(adresseIPv4);
     let numeroDeRoom;
     
     socket.on('deconnection', () => {

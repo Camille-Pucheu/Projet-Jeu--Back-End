@@ -427,17 +427,35 @@ body {
     width: 660px;
 }
 
-#conclusion div {
-    margin-left: 146px;
+#conclusion p {
+    margin-left: 156px;
     position: relative;
-    top: 189px;
+    top: 185px;
     width: 475px;
+    font-size: 18px;
+    line-height: 38px;
 }
 
-#conclusion p {
-    font-size: 20px;
-    line-height: 44px;
-}
+#conclusion a {
+    background-color: rgba(250, 250, 250, 0);
+    background-image: url("../img/Pikachu_Icon_Suivant.png");
+    background-size: 105%;
+    border: none;
+    filter: drop-shadow(2px 2px 5px grey);
+    float: right;
+    height: 80px;
+    position: absolute;
+    right: 16px;
+    top: 335px;
+    width: 80px;
+}   #conclusion a:hover {
+        cursor: pointer;
+        filter: 
+            brightness(1.25)
+            drop-shadow(0 0 20px rgb(240, 255, 27)); 
+        height: 85px;
+        width: 85px;
+    }
 
 /**********************************************************************/
 /*************************** Partie Joueurs ***************************/
