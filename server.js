@@ -12,10 +12,6 @@ const app = express();
 const PORT = process.env.PORT || 5500;
 const http = require('http').Server(app);
 const ioServer = require('socket.io')(http);
-// const {createServer} = require('http');
-// const socketIO = require('socket.io');
-// const httpServer = createServer(app);
-// const ioServer = socketIO(httpServer);
 
 
 app.use('/css',express.static(__dirname + '/assets/css'));
@@ -31,7 +27,6 @@ app.set('view engine','pug');
 
 app.use('*', (request, response) => {
     // console.log('En attente de connexion a la base de donnee');
-    // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
     const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
         useUnifiedTopology: true,
     });
@@ -50,9 +45,6 @@ app.use('*', (request, response) => {
     })
 })
 
-// httpServer.listen(PORT, () => {
-//     console.log(`Express HTTP server démarre sur le port ${PORT}`);
-// })
 
 http.listen(PORT, () => {
     console.log(`Express HTTP server démarre sur le port ${PORT}`);
@@ -82,7 +74,6 @@ ioServer.on('connection', (socket) => {
 
     /* Affichage du score */
     socket.on('rangementScoreTab', () => {
-        // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
         const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
             useUnifiedTopology: true,
         });
@@ -176,7 +167,6 @@ ioServer.on('connection', (socket) => {
             socket.emit('finDeJeu', chrono);
 
             /* Stockage en base de donnee */
-        // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
             const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
                 useUnifiedTopology: true,
             });
@@ -262,7 +252,6 @@ ioServer.on('connection', (socket) => {
             socket.emit('finDeJeu', chrono);
 
             /* Stockage en base de donnee */
-        // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
             const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
                 useUnifiedTopology: true,
             });

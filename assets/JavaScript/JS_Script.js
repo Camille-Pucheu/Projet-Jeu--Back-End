@@ -4,8 +4,6 @@
     ************************ Mes variables et Objets ************************
     ************************************************************************/
 
-// const adresseIPv4 = 'http://adressIPv4:8888';
-
 const element = {
     // En-Tête
     personnesConnectees : document.getElementById('enTete').children[1].firstElementChild,
