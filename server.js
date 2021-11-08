@@ -31,7 +31,8 @@ app.set('view engine','pug');
 
 app.use('*', (request, response) => {
     // console.log('En attente de connexion a la base de donnee');
-    const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+    // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+    const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
         useUnifiedTopology: true,
     });
     mongoClient.connect((error, mongoClient) => {
@@ -49,7 +50,11 @@ app.use('*', (request, response) => {
     })
 })
 
-httpServer.listen(PORT, () => {
+// httpServer.listen(PORT, () => {
+//     console.log(`Express HTTP server démarre sur le port ${PORT}`);
+// })
+
+http.listen(PORT, () => {
     console.log(`Express HTTP server démarre sur le port ${PORT}`);
 })
 
@@ -77,7 +82,8 @@ ioServer.on('connection', (socket) => {
 
     /* Affichage du score */
     socket.on('rangementScoreTab', () => {
-        const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+        // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+        const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
             useUnifiedTopology: true,
         });
         mongoClient.connect((error, mongoClient) => {
@@ -170,7 +176,8 @@ ioServer.on('connection', (socket) => {
             socket.emit('finDeJeu', chrono);
 
             /* Stockage en base de donnee */
-            const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+        // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+            const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
                 useUnifiedTopology: true,
             });
             mongoClient.connect((error, mongoClient) => {
@@ -255,7 +262,8 @@ ioServer.on('connection', (socket) => {
             socket.emit('finDeJeu', chrono);
 
             /* Stockage en base de donnee */
-            const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+        // const mongoClient = new mongodb.MongoClient('mongodb://localhost:27017', {
+            const mongoClient = new mongodb.MongoClient('mongodb+srv://CamilleP:Boubou@cluster0.wqozl.mongodb.net/projetBackEnd', {
                 useUnifiedTopology: true,
             });
             mongoClient.connect((error, mongoClient) => {
